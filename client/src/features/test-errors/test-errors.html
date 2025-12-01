@@ -1,0 +1,19 @@
+<div class="flex justify-center gap-3 pt-10">
+    <button class="btn btn-neutral" (click)="get500Error()">server-error</button>
+    <button class="btn btn-secondary" (click)="get401Error()">Unauthorised</button>
+    <button class="btn btn-accent" (click)="get400Error()">Bad request 400</button>
+    <button class="btn btn-success" (click)="get404Error()">Not found</button>
+    <button class="btn btn-error" (click)="getValidationError()">Validation 400-error</button>
+</div>
+
+@if(validationErrors().length>0){
+    <div class="card bg-base-100 flex mt-5 rounded-2xl w-1/2 p-3 mx-auto">
+        <ul class="flex flex-col text-red-600 space-y-2">
+            @for (err of validationErrors(); track $index) {
+                <li>{{err}}</li>
+            }
+        </ul>
+    </div>
+}
+
+

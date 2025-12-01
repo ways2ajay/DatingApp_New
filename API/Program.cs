@@ -2,12 +2,10 @@ using System.Security.Cryptography;
 using System.Text;
 using API.Data;
 using API.Interfaces;
+using API.Middleware;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 
@@ -63,7 +61,7 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
-
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseCors(Options =>  Options.AllowAnyMethod().AllowAnyHeader()
 .WithOrigins("http://localhost:4200", "https://localhost:4200"));
 
