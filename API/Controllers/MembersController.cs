@@ -13,9 +13,9 @@ public class MembersController(IMemberRepository memberRepository) : BaseApiCont
 {
 
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<Member>>> GetMembers()
+    public async Task<IReadOnlyList<Member>> GetMembers()
     {
-       return Ok( memberRepository.GetMembersAsync());
+       return await  memberRepository.GetMembersAsync();
     }
 
     
