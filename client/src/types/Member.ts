@@ -30,3 +30,10 @@ export type ApiResponse<T> = {
   asyncState: any;
   isFaulted: boolean;
 }
+
+export type EditableMember ={
+  displayName: string,
+  description?: string,
+  city: string,
+  country:string
+}
