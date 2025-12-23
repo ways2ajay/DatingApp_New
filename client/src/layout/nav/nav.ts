@@ -55,4 +55,8 @@ export class Nav implements OnInit{
     this.router.navigateByUrl('/');
     console.log('logout');
   }
+
+  editProfile(){
+    this.router.navigateByUrl('members/'+this.accountService.currentUser()?.id);
+  }
 }
