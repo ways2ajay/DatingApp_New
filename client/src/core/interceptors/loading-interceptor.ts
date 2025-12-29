@@ -1,4 +1,4 @@
-import { HttpEvent, HttpInterceptorFn, HttpResponse } from '@angular/common/http';
+import { HttpEvent, HttpInterceptorFn, HttpParams, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { BusyService } from '../services/busy-service';
 import { delay, finalize, of, tap} from 'rxjs';
@@ -8,8 +8,13 @@ const cache = new Map<string, HttpEvent<unknown>>();
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   const busyService = inject(BusyService);
 
+  const generateCacheKey = (url: string, params: HttpParams): string =>{
+    const paramString = params.keys().map(key=> `${params.get(key)}`).join('&');
+    return paramString? `${url}?${paramString}`:url;
+  }
+  const cacheKey = generateCacheKey(req.url, req.params);
   if(req.method ==='GET'){
-    const cachedResponse = cache.get(req.urlWithParams);
+    const cachedResponse = cache.get(cacheKey);//req.urlWithParams
     if(cachedResponse){
       console.log(req.url);
       return of( cachedResponse);
@@ -22,7 +27,7 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
     tap(response =>{
       if(response instanceof HttpResponse && req.method ==='GET'){
         console.log('cache set'); console.log(response);
-        cache.set(req.urlWithParams, response)
+        cache.set(cacheKey, response)
       }
     }),
     finalize(()=>{
