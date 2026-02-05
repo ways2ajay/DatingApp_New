@@ -16,7 +16,7 @@ export class MemberCard {
   hasLiked = computed(()=>this.likeService.likes().includes(this.member().id));
 
  toggleLike(event: Event){
-  event.stopPropagation();
+  //event.stopPropagation();
   this.likeService.toggleLike(this.member().id).subscribe({
     next: ()=>{
       if(this.hasLiked()){
